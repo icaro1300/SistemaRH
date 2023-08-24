@@ -1,0 +1,124 @@
+﻿@model SistemaRH.Models.Pessoa
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Cadrasto</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Pessoa</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DataNascimento, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               <input id="DataNascimento"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tipoBancario, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    <select id="tipoBancario">
+                        <option id="Pix" onclick="BloquearChavePix()">Pix</option>
+                        <option id="Conta Bancaria">Conta Bancaria</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.agencia, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+              <input id="agencia"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.conta, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.conta, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.conta, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tipoConta, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="tipoConta">
+                    <option id="1">Conta Corrente</option>
+                    <option id="2">Conta Poupança</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.chavePix, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="chavePix" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script>
+    function desabilitarCampos(obj) {
+        console.log("Mudou: " + obj.value);
+
+        if (obj.value == 0) {
+            //ativar conta bancaria
+        } else if (obj.value == 1) {
+            //ativar pix
+        } else {
+            //desativar todo mundo
+            console.log("Entrou desabilitar todo mundo");
+            document.getElementById("lblAgencia").style.display = "none";
+            document.getElementById("agencia").style.display = "none";
+            document.getElementById("conta").style.display = "none";
+            document.getElementById("tipoConta").style.display = "none";
+               }
+
+        function BloquearChavePix() {
+            var tipoBancario = document.getElementById("tipoBancario");
+            var chavePixInput = document.getElementById("chavePix");
+
+            if (tipoBancario.value === "Conta") { // Verifica se o valor é "Conta"
+                chavePixInput.disabled = true; // Desativa o campo se o tipo for "Conta"
+            } else {
+                ChavePixinput.disabled = false; // Ativa o campo para outros tipos
+            }
+        }
+
+        var tipoBancario = document.getElementById("tipoBancario");
+        tipoBancario.addEventListener("change", BloquearChavePix); // Usar "change" em vez de "Mudou"
+
+</script>
